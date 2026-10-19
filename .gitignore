@@ -1,17 +1,19 @@
-# Ambiente virtual
+# Ambiente Virtual
 venv/
 .venv/
 
-# Caches de Python
+# Caches e arquivos compilados do Python
 __pycache__/
 *.py[cod]
+*$py.class
 
-# Variáveis de ambiente
+# Configurações de ambiente e segredos
 .env
+*.env.local
 
-# Configurações de IDEs
+# Configurações da IDE (VS Code)
 .vscode/
-.idea/
 
-# Testes e Cobertura
-.pytest_cache/
+# Arquivos do sistema operacional
+.DS_Store
+Thumbs.db
