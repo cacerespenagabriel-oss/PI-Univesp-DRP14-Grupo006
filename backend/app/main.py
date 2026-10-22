@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from app.routers import dashboard, frequencia, upload
+from app.routers import dashboard, frequencia, upload, reports
 
 app = FastAPI(
     title="Frequência+ API",
@@ -19,6 +19,7 @@ app.add_middleware(
 app.include_router(dashboard.router)
 app.include_router(frequencia.router)
 app.include_router(upload.router)
+app.include_router(reports.router)
 
 @app.get("/")
 def read_root():
