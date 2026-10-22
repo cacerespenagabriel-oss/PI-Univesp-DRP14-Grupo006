@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from app.routers import dashboard, upload
+from app.routers import dashboard, frequencia, upload
 
 app = FastAPI(
     title="Frequência+ API",
@@ -8,7 +8,6 @@ app = FastAPI(
     version="0.1.0"
 )
 
-# Configuração de CORS para permitir que o React/Frontend acesse o backend
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -17,7 +16,8 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Inclui as rotas
+app.include_router(dashboard.router)
+app.include_router(frequencia.router)
 app.include_router(upload.router)
 
 @app.get("/")
