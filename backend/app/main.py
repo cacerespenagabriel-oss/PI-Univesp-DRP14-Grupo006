@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from app.routers import dashboard, frequencia, upload, reports
+from app.routers import auth, dashboard, frequencia, upload, reports
 
 app = FastAPI(
     title="Frequência+ API",
@@ -16,6 +16,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+app.include_router(auth.router)
 app.include_router(dashboard.router)
 app.include_router(frequencia.router)
 app.include_router(upload.router)
