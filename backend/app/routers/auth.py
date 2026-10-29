@@ -1,11 +1,18 @@
 from fastapi import APIRouter, HTTPException
-from pydantic import BaseModel
+from pydantic import BaseModel, field_validator
 
 router = APIRouter(prefix="/auth", tags=["Autenticação"])
 
 class LoginRequest(BaseModel):
     email: str
     password: str
+
+    @field_validator("password")
+    @classmethod
+    def validate_password(cls, password: str) -> str:
+        if len(password) != 6 or not password.isdigit():
+            raise ValueError("A senha deve conter exatamente 6 dígitos.")
+        return password
 
 @router.post("/login")
 def login(data: LoginRequest):
@@ -14,7 +21,7 @@ def login(data: LoginRequest):
         return {
             "token": "fake-jwt-token-123456789",
             "usuario": {
-                "nome": "Gestor de RH",
+                "nome": "Administrador do Sistema",
                 "email": data.email,
                 "cargo": "Administrador"
             }

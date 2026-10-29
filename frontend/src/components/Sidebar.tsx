@@ -1,6 +1,11 @@
-import { CalendarDays, Home, FileSpreadsheet, BarChart2, Settings, Accessibility, User } from 'lucide-react';
+import { CalendarDays, Home, FileSpreadsheet, BarChart2, Settings, Accessibility, User, LogOut, Moon, Sun } from 'lucide-react'
+import { useAuth } from '../context/AuthContext'
+import { useTheme } from '../context/ThemeContext'
 
 export function Sidebar() {
+  const { user, logout } = useAuth()
+  const { isDark, toggleTheme } = useTheme()
+
   return (
     <aside className="w-64 h-screen bg-[#1e293b] text-white flex flex-col fixed left-0 top-0">
       {/* Logo */}
@@ -44,21 +49,28 @@ export function Sidebar() {
             <button className="hover:text-white text-base font-semibold">A</button>
             <button className="hover:text-white text-lg font-semibold">A</button>
             <div className="w-px h-4 bg-slate-600 mx-1"></div>
-            <button className="hover:text-white w-6 h-6 rounded-full bg-slate-800 border border-slate-600 flex items-center justify-center">
-              <span className="block w-3 h-6 bg-white rounded-l-full"></span>
+            <button
+              type="button"
+              onClick={toggleTheme}
+              aria-label={isDark ? 'Ativar tema claro' : 'Ativar tema escuro'}
+              className="hover:text-white w-8 h-8 rounded-full bg-slate-800 border border-slate-600 flex items-center justify-center"
+            >
+              {isDark ? <Sun size={16} /> : <Moon size={16} />}
             </button>
           </div>
         </div>
 
         {/* Usuário Dropdown (Simulado) */}
         <div className="mt-4 pt-4 border-t border-slate-700/50">
-          <button className="w-full flex items-center justify-between text-slate-300 hover:text-white px-2 py-2 rounded-lg transition-colors">
-            <div className="flex items-center gap-3">
+          <div className="flex items-center justify-between gap-2 text-slate-300 px-2 py-2">
+            <div className="flex items-center gap-3 min-w-0">
               <User size={20} />
-              <span className="font-medium">Usuário</span>
+              <span className="font-medium truncate">{user?.usuario.nome ?? 'Usuário'}</span>
             </div>
-            <span className="text-xs">▼</span>
-          </button>
+            <button type="button" onClick={logout} aria-label="Sair" title="Sair" className="p-2 hover:text-white hover:bg-slate-800 rounded-lg">
+              <LogOut size={18} />
+            </button>
+          </div>
         </div>
       </div>
     </aside>
