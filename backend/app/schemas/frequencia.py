@@ -1,15 +1,21 @@
 from pydantic import BaseModel
 from typing import Optional, List
 
-# Schema para um registro de frequência individual (Tabela do Dashboard)
+# Schema para os pontos do gráfico de linha
+class ChartDataPoint(BaseModel):
+    data: str        # Ex: "01/08"
+    presentes: int
+    ausentes: int
+
+# Schema para um registro de frequência individual (Tabela)
 class AttendanceRecord(BaseModel):
     id: int
     data: str
     colaborador: str
-    status: str  # Ex: "Presente", "Ausente", "Atraso"
+    status: str      # "Presente", "Ausente", "Atraso"
     horario: Optional[str] = None
 
-# Schema para os cards de resumo do Dashboard
+# Schema para os cards de resumo (KPIs)
 class DashboardSummary(BaseModel):
     total_colaboradores: int
     presentes: int
@@ -19,7 +25,8 @@ class DashboardSummary(BaseModel):
     atrasos: int
     percentual_atrasos: float
 
-# Schema da resposta completa da Dashboard
+# Schema completo da resposta da Dashboard
 class DashboardData(BaseModel):
     resumo: DashboardSummary
+    grafico: List[ChartDataPoint]
     ultimos_registros: List[AttendanceRecord]
