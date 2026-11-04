@@ -96,7 +96,7 @@ O plano gratuito da Vercel (Hobby) é para uso não comercial, o que serve para 
 ### 2. Back-end na Vercel
 
 1. Crie uma conta em https://vercel.com entrando com o GitHub.
-2. **Add New → Project**, escolha este repositório e, em **Root Directory**, selecione `backend`.
+2. **Add New → Project**, escolha este repositório, em **Root Directory** selecione `backend` e em **Application Preset** deixe **FastAPI**.
 3. Em **Environment Variables**, cadastre:
    - `DATABASE_URL` = a mesma string do Supabase
    - `SECRET_KEY` = um texto longo e aleatório
@@ -104,7 +104,7 @@ O plano gratuito da Vercel (Hobby) é para uso não comercial, o que serve para 
 4. Clique em **Deploy**. Anote o endereço gerado (ex.: `https://frequencia-api.vercel.app`) e
    teste abrindo `<endereço>/docs`.
 
-O arquivo `backend/vercel.json` manda todas as requisições para `backend/api/index.py`, que carrega a API.
+Com o preset **FastAPI**, a Vercel encontra a API sozinha em `backend/app/main.py`.
 
 ### 3. Front-end na Vercel
 
@@ -136,7 +136,6 @@ backend/
     routers/             # rotas da API
     core/security.py     # token de login
   scripts/               # carregar_csv.py e treinar_modelo.py
-  api/index.py, vercel.json  # deploy na Vercel
 frontend/
   src/pages/             # Login, Dashboard, Alunos, Previsoes
   src/components/        # cards, gráfico, tabela, upload, paginação
