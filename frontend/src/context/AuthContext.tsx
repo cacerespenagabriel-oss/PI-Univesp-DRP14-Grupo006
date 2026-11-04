@@ -1,5 +1,5 @@
-import { createContext, useContext, useState, type ReactNode } from 'react'
-import axios from 'axios'
+import { createContext, useContext, useEffect, useState, type ReactNode } from 'react'
+import { api, SESSION_EXPIRED_EVENT, SESSION_KEY } from '../services/api'
 
 interface Usuario {
   nome: string
@@ -20,16 +20,25 @@ interface AuthContextValue {
 }
 
 const AuthContext = createContext<AuthContextValue | null>(null)
-const SESSION_KEY = 'frequencia-plus-session'
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<LoginResponse | null>(() => {
-    const savedSession = localStorage.getItem(SESSION_KEY)
-    return savedSession ? JSON.parse(savedSession) as LoginResponse : null
+    try {
+      const savedSession = localStorage.getItem(SESSION_KEY)
+      return savedSession ? JSON.parse(savedSession) as LoginResponse : null
+    } catch {
+      return null
+    }
   })
 
+  useEffect(() => {
+    const aoExpirar = () => logout()
+    window.addEventListener(SESSION_EXPIRED_EVENT, aoExpirar)
+    return () => window.removeEventListener(SESSION_EXPIRED_EVENT, aoExpirar)
+  }, [])
+
   async function login(email: string, password: string) {
-    const response = await axios.post<LoginResponse>('http://localhost:8000/auth/login', {
+    const response = await api.post<LoginResponse>('/auth/login', {
       email,
       password,
     })
