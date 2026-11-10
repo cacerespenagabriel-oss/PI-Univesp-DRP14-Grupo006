@@ -1,7 +1,11 @@
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel, field_validator
 
+from app.config import ADMIN_EMAIL, ADMIN_SENHA
+from app.core.security import gerar_token
+
 router = APIRouter(prefix="/auth", tags=["Autenticação"])
+
 
 class LoginRequest(BaseModel):
     email: str
@@ -14,20 +18,17 @@ class LoginRequest(BaseModel):
             raise ValueError("A senha deve conter exatamente 6 dígitos.")
         return password
 
+
 @router.post("/login")
 def login(data: LoginRequest):
-    # Validação simples simulada
-    if data.email == "admin@frequencia.com" and data.password == "123456":
+    if data.email.strip().lower() == ADMIN_EMAIL.lower() and data.password == ADMIN_SENHA:
         return {
-            "token": "fake-jwt-token-123456789",
+            "token": gerar_token(data.email),
             "usuario": {
                 "nome": "Administrador do Sistema",
                 "email": data.email,
-                "cargo": "Administrador"
-            }
+                "cargo": "Administrador",
+            },
         }
-    
-    raise HTTPException(
-        status_code=401, 
-        detail="E-mail ou senha incorretos."
-    )
+
+    raise HTTPException(status_code=401, detail="E-mail ou senha incorretos.")

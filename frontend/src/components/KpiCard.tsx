@@ -16,10 +16,10 @@ interface KpiCardProps {
 
 export function KpiCard({ title, value, percentage, icon, variant }: KpiCardProps) {
   const bgColors = {
-    blue: 'bg-blue-50',
-    green: 'bg-green-50',
-    red: 'bg-red-50',
-    purple: 'bg-purple-50'
+    blue: 'bg-blue-50 dark:bg-blue-950/50',
+    green: 'bg-green-50 dark:bg-green-950/50',
+    red: 'bg-red-50 dark:bg-red-950/50',
+    purple: 'bg-purple-50 dark:bg-purple-950/50'
   };
 
   const iconColors = {
@@ -30,14 +30,14 @@ export function KpiCard({ title, value, percentage, icon, variant }: KpiCardProp
   };
 
   const iconBgColors = {
-    blue: 'bg-blue-100',
-    green: 'bg-green-100',
-    red: 'bg-red-100',
-    purple: 'bg-purple-100'
+    blue: 'bg-blue-100 dark:bg-blue-900/60',
+    green: 'bg-green-100 dark:bg-green-900/60',
+    red: 'bg-red-100 dark:bg-red-900/60',
+    purple: 'bg-purple-100 dark:bg-purple-900/60'
   };
 
   return (
-    <div className={cn("rounded-xl p-5 flex flex-col justify-between border border-slate-100 shadow-sm h-32", bgColors[variant])}>
+    <div className={cn("rounded-xl p-5 flex flex-col justify-between border border-slate-100 shadow-sm min-h-32", bgColors[variant])}>
       <div className="flex items-start justify-between">
         <div className={cn("p-2 rounded-lg", iconBgColors[variant], iconColors[variant])}>
           {icon}
@@ -45,11 +45,11 @@ export function KpiCard({ title, value, percentage, icon, variant }: KpiCardProp
       </div>
       
       <div className="mt-2">
-        <p className="text-slate-600 text-sm font-medium mb-1">{title}</p>
-        <div className="flex items-baseline gap-2">
-          <span className="text-2xl font-bold text-slate-800">{value}</span>
+        <p className="text-slate-600 text-sm font-medium mb-1 leading-tight">{title}</p>
+        <div className="flex items-baseline gap-x-2 flex-wrap">
+          <span className="text-2xl font-bold text-slate-800 whitespace-nowrap">{value}</span>
           {percentage && (
-            <span className="text-sm font-medium text-slate-500">{percentage}</span>
+            <span className="text-sm font-medium text-slate-500 dark:text-slate-400">{percentage}</span>
           )}
         </div>
       </div>
